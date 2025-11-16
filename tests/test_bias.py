@@ -4,14 +4,8 @@ test_bias.py
 Tests for synthetic bias functions in FairML.
 """
 
-import os
-import sys
 import pandas as pd
-
-# Ensure src is on the Python path
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
-)
+import pytest
 
 from fairness_tests.bias import introduce_bias
 

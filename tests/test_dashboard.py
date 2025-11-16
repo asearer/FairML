@@ -5,14 +5,11 @@ Smoke test for Streamlit dashboard in FairML.
 """
 
 import os
-import sys
 import subprocess
 import time
+import pytest
 
-# Ensure src is on the Python path (in case dashboard imports from src)
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
-)
+from dashboard.app import st  # Only if needed, otherwise imports from app
 
 
 def test_dashboard_runs():

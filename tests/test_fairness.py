@@ -4,14 +4,8 @@ test_fairness.py
 Tests for fairness metrics in FairML.
 """
 
-import os
-import sys
 import pandas as pd
-
-# Ensure src is on the Python path
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
-)
+import pytest
 
 from fairness_tests.fairness import demographic_parity_difference
 from models.example_model import train_example_model, load_model
@@ -23,10 +17,8 @@ def test_dp_difference_range():
     train_example_model()
     model = load_model()
 
-    # Build path to CSV file relative to this test file
-    data_path = os.path.join(
-        os.path.dirname(__file__), "../src/data/synthetic_data.csv"
-    )
+    # Build path to CSV file relative to src/data
+    data_path = "src/data/synthetic_data.csv"
     data = pd.read_csv(data_path)
 
     # Compute demographic parity difference
