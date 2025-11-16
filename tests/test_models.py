@@ -1,13 +1,22 @@
+"""
+test_models.py
+--------------
+Tests for model training and loading in FairML.
+"""
+
 import os
 import sys
 
 # Ensure src is on the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
+)
 
-# Now imports will work
 from models.example_model import train_example_model, load_model
 
+
 def test_model_training_loading():
+    """Test that the example model can be trained and loaded."""
     # Train the example model
     train_example_model()
 

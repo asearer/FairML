@@ -1,14 +1,25 @@
+"""
+test_dashboard.py
+-----------------
+Smoke test for Streamlit dashboard in FairML.
+"""
+
 import os
 import sys
 import subprocess
 import time
 
 # Ensure src is on the Python path (in case dashboard imports from src)
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
+)
+
 
 def test_dashboard_runs():
     """Smoke test to ensure the Streamlit dashboard can start."""
-    dashboard_path = os.path.join(os.path.dirname(__file__), '../dashboard/app.py')
+    dashboard_path = os.path.join(
+        os.path.dirname(__file__), "../dashboard/app.py"
+    )
     success = False
 
     try:
