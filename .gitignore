@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.whl
+
+# Virtual environments
+venv/
+ENV/
+env/
+.env/
+
+# Python dependency management
+Pipfile.lock
+poetry.lock
+
+# Unit test / coverage
+.coverage
+.coverage.*
+pytest_cache/
+htmlcov/
+*.log
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# IDE / editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# Docker
+*.dockerignore
+docker-compose.override.yml
+
+# Misc
+.DS_Store
