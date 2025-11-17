@@ -1,15 +1,16 @@
 # tests/test_bias.py
 
+# flake8: noqa: E402
 import os
 import sys
-import pandas as pd
 
-# Ensure src is on the Python path
+# Add src to Python path for imports
 sys.path.insert(
     0,
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")),
 )
 
+import pandas as pd
 from fairness_tests.bias import introduce_bias
 
 
