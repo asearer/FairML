@@ -18,7 +18,7 @@ def test_load_model_after_train(tmp_path, monkeypatch):
     )
 
     # Train and save
-    trained = train_example_model()
+    train_example_model()
     assert model_path.exists()
 
     # Load
