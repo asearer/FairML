@@ -22,7 +22,8 @@ def test_introduce_bias():
         }
     )
 
-    biased = introduce_bias(df, "feature", bias_amount=0.2)
+    biased = introduce_bias(df, "feature", bias_level=0.2)
+
 
     # Ensure same row count
     assert len(biased) == len(df)
