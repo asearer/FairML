@@ -4,11 +4,31 @@ test_models.py
 Tests for model training and loading in FairML.
 """
 
-from models.example_model import train_example_model, load_model
+from src.models.example_model import load_model, train_example_model
+import pandas as pd
 
-
-def test_model_training_loading():
-    """Test that the example model can be trained and loaded."""
-    train_example_model()
-    model = load_model()
+def test_train_example_model():
+    model = train_example_model()
     assert model is not None
+
+def test_load_model_after_train(tmp_path, monkeypatch):
+    # Redirect model path
+    model_path = tmp_path / "model.pkl"
+    monkeypatch.setattr(
+        "src.models.example_model.MODEL_PATH",
+        str(model_path)
+    )
+
+    # Train and save
+    model = train_example_model()
+    assert model_path.exists()
+
+    # Load
+    loaded = load_model()
+    assert loaded is not None
+
+def test_model_predicts():
+    model = train_example_model()
+    df = pd.DataFrame({"x": [1, 2, 3]})
+    preds = model.predict(df)
+    assert len(preds) == len(df)

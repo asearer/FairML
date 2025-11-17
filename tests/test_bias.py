@@ -1,19 +1,8 @@
-"""
-test_bias.py
-------------
-Tests for synthetic bias functions in FairML.
-"""
-
+# tests/test_bias.py
+from src.fairness_tests.bias import introduce_bias
 import pandas as pd
-from fairness_tests.bias import introduce_bias
 
-
-def test_bias_shape():
-    """Test that introducing bias does not change the DataFrame shape."""
-    data = pd.DataFrame({
-        "feature_0": [0, 1, 0, 1],
-        "target": [0, 1, 0, 1]
-    })
-
-    biased = introduce_bias(data, "feature_0", 0.5)
-    assert biased.shape == data.shape
+def test_introduce_bias_runs():
+    df = pd.DataFrame({"f": [1, 2, 3]})
+    biased = introduce_bias(df, "f")
+    assert len(biased) == len(df)
