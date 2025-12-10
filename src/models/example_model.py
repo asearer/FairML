@@ -4,53 +4,57 @@ example_model.py
 Example ML model for FairML.
 """
 
-import pandas as pd
-from sklearn.datasets import make_classification
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 import joblib
-from pathlib import Path
+from sklearn.ensemble import RandomForestClassifier
+from config import config
+from logger import get_logger
+from data.synthetic_data import generate_classification_data
 
-
-MODEL_PATH = Path(__file__).parent / "example_model.pkl"
-
+logger = get_logger(__name__)
 
 def train_example_model() -> RandomForestClassifier:
     """
     Train a simple RandomForest classifier on synthetic data.
+
+    Returns:
+        RandomForestClassifier: The trained model.
     """
-    X, y = make_classification(
-        n_samples=1000,
-        n_features=10,
-        n_informative=8,
-        random_state=42
-    )
+    logger.info("Starting model training...")
+    try:
+        X_train, X_test, y_train, y_test = generate_classification_data()
 
-    df = pd.DataFrame(
-        X, columns=[f"feature_{i}" for i in range(X.shape[1])]
-    )
-    df["target"] = y
+        model = RandomForestClassifier(random_state=config.RANDOM_SEED)
+        model.fit(X_train, y_train)
+        logger.info("Model training completed")
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        df.drop("target", axis=1),
-        df["target"],
-        test_size=0.2,
-        random_state=42
-    )
+        joblib.dump(model, config.MODEL_DIR / "example_model.pkl")
+        logger.info(f"Model saved to {config.MODEL_DIR / 'example_model.pkl'}")
 
-    model = RandomForestClassifier(random_state=42)
-    model.fit(X_train, y_train)
+        return model
 
-    joblib.dump(model, MODEL_PATH)
-
-    df.to_csv(
-        Path(__file__).parent.parent / "data" / "synthetic_data.csv",
-        index=False
-    )
-
-    return model
-
+    except Exception as e:
+        logger.error(f"Model training failed: {e}")
+        raise
 
 def load_model() -> RandomForestClassifier:
-    """Load the trained example model."""
-    return joblib.load(MODEL_PATH)
+    """
+    Load the trained example model.
+    
+    Returns:
+        RandomForestClassifier: Loaded model instance.
+
+    Raises:
+        FileNotFoundError: If the model file does not exist.
+    """
+    model_path = config.MODEL_DIR / "example_model.pkl"
+    if not model_path.exists():
+        logger.error(f"Model file not found at {model_path}")
+        raise FileNotFoundError(f"Model not found at {model_path}. Please run train_example_model() first.")
+    
+    try:
+        model = joblib.load(model_path)
+        logger.info(f"Model loaded from {model_path}")
+        return model
+    except Exception as e:
+        logger.error(f"Failed to load model: {e}")
+        raise
